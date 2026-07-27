@@ -1,0 +1,24 @@
+# Virtual environment
+.venv/
+venv/
+
+# Python caches
+__pycache__/
+*.pyc
+*.pyo
+
+# Downloaded/cached models
+*.pt
+*.onnx
+yolo*.pt
+
+# Ultralytics run artifacts
+runs/
+
+# Generated evidence (contains snapshots from live demo runs)
+outputs/incidents/*.jpg
+outputs/incidents/*.png
+!outputs/incidents/.gitkeep
+
+# OS cruft
+.DS_Store

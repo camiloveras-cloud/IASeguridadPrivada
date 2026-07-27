@@ -1,0 +1,8 @@
+# Restricted-zone intrusion detection demo — CPU only, Python 3.10/3.11
+# Pinned to versions verified together on 2026-07-27 (macOS arm64, CPU).
+# ultralytics pulls in torch/torchvision automatically (CPU wheels on
+# platforms without CUDA); versions below are the top-level, direct deps.
+
+opencv-python==4.10.0.84
+numpy==1.26.4
+ultralytics==8.3.253
