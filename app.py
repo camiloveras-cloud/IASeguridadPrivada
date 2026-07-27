@@ -330,20 +330,24 @@ def main() -> int:
                     if inside:
                         alert_active = True
 
-                if alert_active:
-                    now = time.monotonic()
-                    if now - last_alert_time >= args.cooldown:
-                        last_alert_time = now
-                        incident_count += 1
-                        alarm.play()
-                        saved_path = save_incident_snapshot(frame)
-                        print(
-                            f"[ALERT] Person detected in restricted zone. "
-                            f"Incident #{incident_count} saved to '{saved_path}'."
-                        )
+            trigger_incident = False
+            if alert_active:
+                now = time.monotonic()
+                if now - last_alert_time >= args.cooldown:
+                    last_alert_time = now
+                    incident_count += 1
+                    trigger_incident = True
 
             draw_zone(frame, zone.points, zone.confirmed)
             draw_hud(frame, alert_active, incident_count, zone.confirmed)
+
+            if trigger_incident:
+                alarm.play()
+                saved_path = save_incident_snapshot(frame)
+                print(
+                    f"[ALERT] Person detected in restricted zone. "
+                    f"Incident #{incident_count} saved to '{saved_path}'."
+                )
 
             cv2.imshow(WINDOW_NAME, frame)
             key = cv2.waitKey(1) & 0xFF
