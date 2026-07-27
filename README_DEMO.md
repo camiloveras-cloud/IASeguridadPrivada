@@ -190,7 +190,7 @@ intrusion-detection-demo/
 ├── assets/
 │   └── alarm.wav           # Tono de alerta generado (sin dependencias externas)
 ├── Test Videos/
-│   └── Pencuri.mp4         # Video de prueba, personas caminando (CC BY 4.0)
+│   └── Pencuri.mp4         # Video de prueba, zona restringida con cinta de peligro (CC BY 4.0)
 ├── outputs/
 │   └── incidents/          # Capturas de evidencia (se crea/llena en runtime)
 └── yolov8n.pt               # Pesos del modelo (se descargan solos, ignorado por git)
@@ -199,9 +199,10 @@ intrusion-detection-demo/
 ## 11. Créditos y licencias
 
 - Video de prueba `Test Videos/Pencuri.mp4`: adaptado de
-  `one-by-one-person-detection.mp4`, repositorio
+  `worker-zone-detection.mp4`, repositorio
   [intel-iot-devkit/sample-videos](https://github.com/intel-iot-devkit/sample-videos)
-  (licencia CC BY 4.0).
+  (licencia CC BY 4.0) — nave industrial con una zona delimitada por cinta
+  de peligro, ideal para simular una zona restringida de seguridad física.
 - Modelo de detección: YOLOv8n (Ultralytics), descargado automáticamente la
   primera vez que se ejecuta `prepare_demo.py` o `app.py`.
 - Tono de alerta `assets/alarm.wav`: generado localmente por síntesis de
