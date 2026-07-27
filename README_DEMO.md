@@ -77,7 +77,34 @@ python app.py --source 0 --device cpu
 | `--alarm`      | `assets/alarm.wav`    | Sonido de alerta. Si falta, avisa y continúa sin audio.    |
 | `--mute`       | desactivado           | Desactiva el audio aunque exista el archivo.                |
 
-## 5. Controles en la ventana
+## 5. Versión navegador (para proyectar a una audiencia)
+
+Además de `app.py` (ventana nativa), hay una versión web que transmite el
+mismo pipeline de detección a una pestaña de Chrome — más cómoda para
+proyectar en una charla:
+
+```bash
+python web_app.py --source "Test Videos/Pencuri.mp4" --device cpu --loop
+```
+
+Luego abre **http://127.0.0.1:5000** en el navegador. Con webcam:
+
+```bash
+python web_app.py --source 0 --device cpu
+```
+
+Acepta los mismos flags que `app.py` (`--confidence`, `--cooldown`, `--model`),
+más `--host` y `--port` para elegir dónde escucha el servidor. Los controles
+son equivalentes: clic izquierdo agrega un punto, clic derecho borra el
+polígono, y hay botones **Confirmar zona** / **Reiniciar zona** (también
+funcionan Enter y R con el foco en la página). La alarma suena directamente
+en el navegador y el contador de incidentes se actualiza en vivo. Las
+capturas de evidencia se guardan igual en `outputs/incidents/`.
+
+> Nota: el servidor de desarrollo de Flask no está pensado para producción,
+> pero es suficiente y adecuado para una demo local en vivo.
+
+## 6. Controles en la ventana
 
 | Acción              | Control          |
 |---------------------|------------------|
@@ -91,7 +118,7 @@ Flujo típico: haz 4-6 clics izquierdos para dibujar el polígono de la zona
 restringida → Enter para confirmarla → la detección de personas se activa
 automáticamente a partir de ese momento.
 
-## 6. Evidencia generada
+## 7. Evidencia generada
 
 Cada incidente (persona detectada dentro de la zona, respetando el cooldown)
 guarda una captura en:
@@ -100,7 +127,7 @@ guarda una captura en:
 outputs/incidents/incident_YYYYMMDD_HHMMSS_mmm.jpg
 ```
 
-## 7. Solución de errores comunes
+## 8. Solución de errores comunes
 
 - **`[ERROR] Could not open webcam`**: no hay cámara conectada, está en uso
   por otra app, o el sistema no dio permisos de cámara a la terminal/IDE
@@ -118,8 +145,14 @@ outputs/incidents/incident_YYYYMMDD_HHMMSS_mmm.jpg
   ligera de YOLOv8.
 - **`ModuleNotFoundError`**: el entorno virtual no está activado, o falta
   correr `pip install -r requirements.txt`.
+- **(Versión web) `Address already in use`**: el puerto 5000 ya está ocupado
+  (en macOS, a veces por "AirPlay Receiver/Control Center"). Usa otro puerto:
+  `python web_app.py --source ... --port 5050`.
+- **(Versión web) el video no carga en el navegador**: revisa la consola
+  donde corre `web_app.py` — si dice `[ERROR] Could not open the video
+  source`, el problema es el archivo/cámara, no el navegador.
 
-## 8. Guion sugerido para la presentación (5-7 min)
+## 9. Guion sugerido para la presentación (5-7 min)
 
 1. **Contexto (30s):** "Esta demo muestra detección de personas en tiempo
    real sobre CPU, aplicada a seguridad física: definimos una zona restringida
@@ -144,11 +177,12 @@ outputs/incidents/incident_YYYYMMDD_HHMMSS_mmm.jpg
 9. **Q&A:** mostrar `outputs/incidents/` con las capturas generadas durante
    la demo como evidencia tangible.
 
-## 9. Estructura del proyecto
+## 10. Estructura del proyecto
 
 ```
 intrusion-detection-demo/
-├── app.py                  # Aplicación principal
+├── app.py                  # Aplicación principal (ventana nativa)
+├── web_app.py               # Misma detección, servida como MJPEG en el navegador
 ├── prepare_demo.py         # Chequeo previo a la demo
 ├── requirements.txt
 ├── README_DEMO.md
@@ -162,7 +196,7 @@ intrusion-detection-demo/
 └── yolov8n.pt               # Pesos del modelo (se descargan solos, ignorado por git)
 ```
 
-## 10. Créditos y licencias
+## 11. Créditos y licencias
 
 - Video de prueba `Test Videos/Pencuri.mp4`: adaptado de
   `one-by-one-person-detection.mp4`, repositorio
